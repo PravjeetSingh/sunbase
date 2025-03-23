@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A Visual Form Designer to create dynamic forms easily.">
+    <title>Visual Form Designer</title>
+    <script src="https://kit.fontawesome.com/978978cb5f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <p>Form Designer</p>
+        <div id="buttons">
+            <button id="toggle-theme" aria-label="Toggle Dark Mode">Dark Mode</button>
+            <button id="save-button" aria-label="Save Form">Save</button>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="container">
+        <div class="side-bar">
+            <h2>Components</h2>
+            
+                <button class="fullWidth" id="add-text-input">Input +</button>
+                <button class="fullWidth" id="add-select">Select    +</button>
+                <button class="fullWidth" id="add-textarea">Textarea    +</button>
+            
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="form-area">
+                <form id="form"></form>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div id="edit-modal" class="modal model-hidden">
+            <div class="modal-content">
+                <h2>Edit Element</h2>
+                <input type="text" id="edit-label" placeholder="Label" class="modal-input">
+                <input type="text" id="edit-placeholder" placeholder="Placeholder" class="modal-input model-hidden">
+                <input type="text" id="edit-options" placeholder="Options (comma-separated)" class="modal-input model-hidden">
+                <div class="action-buttons">
+                    <button id="cancel-edit" class="cancel-button">Cancel</button>
+                    <button id="save-edit" class="save-button">Save</button>
+                </div>
+            </div>
+        </div>
+        
+    
+        <div id="toast" class="toast hidden"></div>
+    </div>
+
+    <script src="form.js"></script>
+</body>
+</html>
