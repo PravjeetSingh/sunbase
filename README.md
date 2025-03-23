@@ -45,7 +45,7 @@ This directory contains the code for the visual form designer assignment.
 
 1. Clone the repository to your local machine:
     ```bash
-    git clone https://github.com/pratham1916/Sunbase-Frontend-Assignment.git
+    git clone https://github.com/PravjeetSingh/sunbase.git
     ```
 2. Netlify deployed link
 
