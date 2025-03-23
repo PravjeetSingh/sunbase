@@ -3,13 +3,9 @@ const addInputButton = document.getElementById("add-text-input");
 const addSelectButton = document.getElementById("add-select");
 const addTextareaButton = document.getElementById("add-textarea");
 const saveButton = document.getElementById("save-button");
-const darkModeToggle = document.getElementById("toggle-theme");
-
 let formElements = [];
-let currentEditingElement = null;
 
 
-// Predefined Sample JSON Data
 let jsonData = [
     {
         "id": "c0ac49c5-871e-4c72-a878-251de465e6b4",
@@ -59,15 +55,17 @@ function renderForm() {
             field.innerHTML += `<input type="checkbox">`;
         }
 
-        // Edit button
-        const editButton = document.createElement("button");
-        editButton.innerHTML = '<i class="fa fa-edit"></i>';
-        editButton.classList.add("edit-button");
-        editButton.onclick = (e) => {
-            e.preventDefault();
-            openEditModal(element);
-        };
-        // Edit Modal Functionality
+    // Edit button
+    const editButton = document.createElement("button");
+    editButton.innerHTML = '<i class="fa fa-edit"></i>';
+    editButton.classList.add("edit-button");
+    editButton.onclick = (e) => {
+        e.preventDefault();
+        openEditModal(element);
+    };
+
+// Edit  Functionality
+
 let currentEditingElement = null;
 const editModal = document.getElementById("edit-modal");
 const editLabelInput = document.getElementById("edit-label");
@@ -126,22 +124,18 @@ setTimeout(() => {
     setTimeout(() => {
         toast.remove();
     }, 500);
-}, 2000);
+    }, 2000);
 }
 
 
-
-
-
-
         // Remove button
-        const removeButton = document.createElement("button");
-        removeButton.innerHTML = '<i class="fa fa-trash" style="color: black; background: transparent;"></i>';
-        removeButton.classList.add("remove");
-        removeButton.onclick = () => {
-            jsonData = jsonData.filter(el => el.id !== element.id);
-            renderForm();
-        };
+    const removeButton = document.createElement("button");
+    removeButton.innerHTML = '<i class="fa fa-trash" style="color: black; background: transparent;"></i>';
+    removeButton.classList.add("remove");
+    removeButton.onclick = () => {
+        jsonData = jsonData.filter(el => el.id !== element.id);
+        renderForm();
+    };
 
         field.appendChild(editButton);
         field.appendChild(removeButton);
@@ -243,16 +237,32 @@ saveButton.addEventListener("click", () => {
 });
 
 
-// Dark Mode
-if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark-mode");
-    darkModeToggle.textContent = "Light Mode";
+// Dark Mode Toggle
+const darkModeToggle = document.getElementById("toggle-theme");
+const themeIcon = document.getElementById("theme-icon");
+
+// Function to apply the theme
+function setTheme(mode) {
+    if (mode === "dark") {
+        document.body.classList.add("dark-mode");
+        themeIcon.classList.replace("fa-toggle-off", "fa-toggle-on"); 
+        localStorage.setItem("theme", "dark");
+    } else {
+        document.body.classList.remove("dark-mode");
+        themeIcon.classList.replace("fa-toggle-on", "fa-toggle-off"); 
+        localStorage.setItem("theme", "light");
+    }
 }
 
+// Load theme from localStorage
+const savedTheme = localStorage.getItem("theme") || "light";
+setTheme(savedTheme);
+
+// Toggle Dark Mode
 darkModeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
-    darkModeToggle.textContent = document.body.classList.contains("dark-mode") ? "Light Mode" : "Dark Mode";
+    const isDarkMode = document.body.classList.contains("dark-mode");
+    setTheme(isDarkMode ? "light" : "dark");
 });
 
-renderForm(); // Render the initial form with sample data
+
+renderForm(); 

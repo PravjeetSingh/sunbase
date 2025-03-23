@@ -130,6 +130,11 @@ button {
 button:hover {
     background: #e0e0e0;
 }
+#toggle-theme{
+    border: none;
+    background: transparent;
+    size: 20px;
+}
 
 
 .edit-button {
