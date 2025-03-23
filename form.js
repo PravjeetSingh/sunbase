@@ -242,6 +242,7 @@ saveButton.addEventListener("click", () => {
     alert("Form saved to console!");
 });
 
+
 // Dark Mode
 if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-mode");
