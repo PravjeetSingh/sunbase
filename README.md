@@ -49,4 +49,4 @@ This directory contains the code for the visual form designer assignment.
     ```
 2. Netlify deployed link
 
-https://legendary-axolotl-3e38ee.netlify.app/
+https://fanciful-raindrop-98a43e.netlify.app/

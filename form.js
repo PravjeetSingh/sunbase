@@ -4,6 +4,7 @@ const addSelectButton = document.getElementById("add-select");
 const addTextareaButton = document.getElementById("add-textarea");
 const saveButton = document.getElementById("save-button");
 let formElements = [];
+let currentEditingElement = null;
 
 
 let jsonData = [
