@@ -3,9 +3,15 @@ const addInputButton = document.getElementById("add-text-input");
 const addSelectButton = document.getElementById("add-select");
 const addTextareaButton = document.getElementById("add-textarea");
 const saveButton = document.getElementById("save-button");
-let formElements = [];
 let currentEditingElement = null;
 
+// Edit modal elements
+const editModal = document.getElementById('edit-modal');
+const editLabelInput = document.getElementById('edit-label');
+const editPlaceholderInput = document.getElementById('edit-placeholder');
+const editOptionsInput = document.getElementById('edit-options');
+const cancelEditButton = document.getElementById('cancel-edit');
+const saveEditButton = document.getElementById('save-edit');
 
 let jsonData = [
     {
@@ -56,87 +62,23 @@ function renderForm() {
             field.innerHTML += `<input type="checkbox">`;
         }
 
-    // Edit button
-    const editButton = document.createElement("button");
-    editButton.innerHTML = '<i class="fa fa-edit"></i>';
-    editButton.classList.add("edit-button");
-    editButton.onclick = (e) => {
-        e.preventDefault();
-        openEditModal(element);
-    };
-
-// Edit  Functionality
-
-let currentEditingElement = null;
-const editModal = document.getElementById("edit-modal");
-const editLabelInput = document.getElementById("edit-label");
-const editPlaceholderInput = document.getElementById("edit-placeholder");
-const editOptionsInput = document.getElementById("edit-options");
-const cancelEditButton = document.getElementById("cancel-edit");
-const saveEditButton = document.getElementById("save-edit");
-
-
-function openEditModal(element) {
-currentEditingElement = element;
-editLabelInput.value = element.label;
-
-if (element.type === 'input' || element.type === 'textarea') {
-    editPlaceholderInput.classList.remove('model-hidden');
-    editOptionsInput.classList.add('model-hidden');
-    editPlaceholderInput.value = element.placeholder;
-} else if (element.type === 'select') {
-    editPlaceholderInput.classList.add('model-hidden');
-    editOptionsInput.classList.remove('model-hidden');
-    editOptionsInput.value = element.options.join(',');
-}
-
-editModal.classList.remove('model-hidden');
-}
-
-cancelEditButton.onclick = () => {
-editModal.classList.add('model-hidden');
-};
-
-saveEditButton.onclick = () => {
-if (currentEditingElement) {
-    currentEditingElement.label = editLabelInput.value;
-
-    if (currentEditingElement.type === 'input' || currentEditingElement.type === 'textarea') {
-        currentEditingElement.placeholder = editPlaceholderInput.value;
-    } else if (currentEditingElement.type === 'select') {
-        currentEditingElement.options = editOptionsInput.value.split(',');
-    }
-
-    showToast('Element updated successfully!');
-    editModal.classList.add('model-hidden');
-    renderForm();
-}
-};
-
-function showToast(message) {
-const toast = document.createElement("div");
-toast.classList.add("toast");
-toast.innerText = message;
-
-document.body.appendChild(toast);
-
-setTimeout(() => {
-    toast.classList.add("fade-out");
-    setTimeout(() => {
-        toast.remove();
-    }, 500);
-    }, 2000);
-}
-
+        // Edit button
+        const editButton = document.createElement("button");
+        editButton.innerHTML = '<i class="fa fa-edit"></i>';
+        editButton.classList.add("edit-button");
+        editButton.onclick = (e) => {
+            e.preventDefault();
+            openEditModal(element);
+        };
 
         // Remove button
-    const removeButton = document.createElement("button");
-    removeButton.innerHTML = '<i class="fa fa-trash" style="color: black; background: transparent;"></i>';
-    removeButton.classList.add("remove");
-    removeButton.onclick = () => {
-        jsonData = jsonData.filter(el => el.id !== element.id);
-        renderForm();
-    };
+        const removeButton = document.createElement("button");
+        removeButton.innerHTML = '<i class="fa fa-trash" style="color: black; background: transparent;"></i>';
+        removeButton.classList.add("remove");
+        removeButton.onclick = () => {
+            jsonData = jsonData.filter(el => el.id !== element.id);
+            renderForm();
+        };
 
         field.appendChild(editButton);
         field.appendChild(removeButton);
@@ -166,36 +108,29 @@ function addDragAndDrop() {
     });
 }
 
-// Edit modal functionality
-const editModal = document.getElementById('edit-modal');
-const editLabelInput = document.getElementById('edit-label');
-const editPlaceholderInput = document.getElementById('edit-placeholder');
-const editOptionsInput = document.getElementById('edit-options');
-const cancelEditButton = document.getElementById('cancel-edit');
-const saveEditButton = document.getElementById('save-edit');
-
-
-
-
 function openEditModal(element) {
     currentEditingElement = element;
     editLabelInput.value = element.label;
 
     if (element.type === "input" || element.type === "textarea") {
-        editPlaceholderInput.classList.remove("hidden");
-        editOptionsInput.classList.add("hidden");
+        editPlaceholderInput.classList.remove("model-hidden");
+        editOptionsInput.classList.add("model-hidden");
         editPlaceholderInput.value = element.placeholder;
     } else if (element.type === "select") {
-        editPlaceholderInput.classList.add("hidden");
-        editOptionsInput.classList.remove("hidden");
+        editPlaceholderInput.classList.add("model-hidden");
+        editOptionsInput.classList.remove("model-hidden");
         editOptionsInput.value = element.options.join(",");
+    } else {
+        // For checkbox or other types
+        editPlaceholderInput.classList.add("model-hidden");
+        editOptionsInput.classList.add("model-hidden");
     }
 
-    editModal.classList.remove("hidden");
+    editModal.classList.remove("model-hidden");
 }
 
 cancelEditButton.onclick = () => {
-    editModal.classList.add("hidden");
+    editModal.classList.add("model-hidden");
 };
 
 saveEditButton.onclick = () => {
@@ -208,11 +143,26 @@ saveEditButton.onclick = () => {
             currentEditingElement.options = editOptionsInput.value.split(",");
         }
 
-        alert("Element updated successfully!");
-        editModal.classList.add("hidden");
+        showToast('Element updated successfully!');
+        editModal.classList.add("model-hidden");
         renderForm();
     }
 };
+
+function showToast(message) {
+    const toast = document.createElement("div");
+    toast.classList.add("toast");
+    toast.innerText = message;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add("fade-out");
+        setTimeout(() => {
+            toast.remove();
+        }, 500);
+    }, 2000);
+}
 
 function addElement(type) {
     let label = prompt("Enter label:");
@@ -236,7 +186,6 @@ saveButton.addEventListener("click", () => {
     console.log(JSON.stringify(jsonData, null, 2));
     alert("Form saved to console!");
 });
-
 
 // Dark Mode Toggle
 const darkModeToggle = document.getElementById("toggle-theme");
@@ -265,5 +214,4 @@ darkModeToggle.addEventListener("click", () => {
     setTheme(isDarkMode ? "light" : "dark");
 });
 
-
-renderForm(); 
+renderForm();
